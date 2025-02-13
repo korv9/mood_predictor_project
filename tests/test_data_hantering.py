@@ -1,13 +1,18 @@
-"""import sys
+import sys
 import os
+from unittest.mock import MagicMock, patch
+import pandas as pd
 import pytest
 from flask import Flask
 import werkzeug
 from werkzeug.security import generate_password_hash, check_password_hash
+from app.data_hantering import extract_data
 from app.user_login import register_user, login_user
 from app.models import db, User  # ANVÄND GLOBAL DB OCH MODELLER
-# FIXA PROJEKTKATALOGEN
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
+
+
+#OBS BEHÖVAS KÖRAS GENOM TERMINALEN PYTHON -M PYTEST för att få rätt root
+
 
 # SKAPA APP-FIXTURE OCH INITIERA GLOBAL DB MED APP
 @pytest.fixture
@@ -98,53 +103,7 @@ def test_login_user_not_found(session, app):
 
 
 
-@patch('app.data_hantering.User')
-@patch('app.data_hantering.DailyMood')
-def test_extract_data(MockDailyMood, MockUser):
-    with app.app_context():
-        # Mock user
-        mock_user = MagicMock()
-        mock_user.id = 1
-        MockUser.query.filter_by.return_value.first.return_value = mock_user
 
-        # Mock daily moods
-        mock_mood = MagicMock()
-        mock_mood.date = '2023-10-01'
-        mock_mood.mood = 5
-        mock_mood.appetite = 6
-        mock_mood.sleep = 7
-        mock_mood.stress = 4
-        mock_mood.exercise = 8
-        mock_mood.social_activity = 3
-        mock_mood.productivity = 9
-        mock_mood.hobby_time = 2
-        MockDailyMood.query.filter_by.return_value.all.return_value = [mock_mood]
-
-        # Call the function
-        df = extract_data('test')
-
-        # Print DataFrame information
-        print("\n=== DataFrame Content ===")
-        print(df)
-        print("\n=== DataFrame Info ===")
-        print(df.info())
-        print("\n=== DataFrame Description ===")
-        print(df.describe())
-
-        # Check the DataFrame
-        expected_data = {
-            'date': ['2023-10-01'],
-            'mood': [5],
-            'appetite': [6],
-            'sleep': [7],
-            'stress': [4],
-            'exercise': [8],
-            'social_activity': [3],
-            'productivity': [9],
-            'hobby_time': [2]
-        }
-        expected_df = pd.DataFrame(expected_data)
-        pd.testing.assert_frame_equal(df, expected_df)
 
 if __name__ == '__main__':
-    pytest.main()"""
+    pytest.main()
