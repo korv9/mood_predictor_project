@@ -1,17 +1,27 @@
+# Web Framework
 flask
-
-SQLAlchemy
-
-python-dotenv
-
-pandas
-
-numpy
-
-matplotlib
-
 flask_sqlalchemy
 
-scikit-learn
+# Database
+SQLAlchemy
 
+# Machine Learning
+scikit-learn
+pandas
+numpy
+
+# Data Visualization
+matplotlib
+
+
+# Environment & Security
+python-dotenv
 werkzeug
+
+# Testing
+pytest
+pytest-flask
+
+# Code Quality
+black
+flake8
