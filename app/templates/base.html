@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Mood Tracker{% endblock %}</title>
+    <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+    <style>
+        body {
+            background: #1a1a1a;
+            font-family: 'MedievalSharp', cursive;
+            color: #e0e0e0;
+            margin: 0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        h1, h2, h3 {
+            text-align: center;
+            text-shadow: 2px 2px #4a4a4a;
+            color: #d4b483;
+            margin-bottom: 30px;
+        }
+
+        .navigation {
+            text-align: center;
+            margin-bottom: 30px;
+            background: #2c2c2c;
+            padding: 15px;
+            border: 1px solid #404040;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        .navigation a, .navigation button, button, input[type="submit"] {
+            margin: 5px;
+            text-decoration: none;
+            color: #d4b483;
+            font-weight: bold;
+            background: #1a1a1a;
+            border: 1px solid #404040;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'MedievalSharp', cursive;
+            font-size: 1.1em;
+        }
+
+        .navigation a:hover, .navigation button:hover, button:hover, input[type="submit"]:hover {
+            background: #404040;
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        input[type="text"], input[type="password"], input[type="number"] {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 10px;
+            background: #2c2c2c;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            color: #e0e0e0;
+            font-family: 'MedievalSharp', cursive;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: #2c2c2c;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #404040;
+        }
+
+        th {
+            background: #404040;
+            color: #d4b483;
+        }
+
+        .flash-messages {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .flash-message {
+            background: #d4b483;
+            color: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+
+        .form-container {
+            max-width: 500px;
+            margin: 0 auto;
+            background: #2c2c2c;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #d4b483;
+        }
+    </style>
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <h1>{% block header %}{% endblock %}</h1>
+    
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Mood</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <style>
+        body {
+            background: #2c2c2c;
+            font-family: 'MedievalSharp', cursive;
+            color: #f5e9d3;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px #d4b483;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 80%;  /* Increased width */
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .data-table {
+            width: 100%;
+            max-width: 1000px;
+            margin: 20px auto;
+            overflow-y: auto;  /* Changed to vertical scroll if needed */
+            max-height: 600px;  /* Set maximum height before scrolling */
+        }
+        .data {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        th, td {
+            border: 1px solid #f5e9d3;
+            padding: 12px 20px;  /* Increased padding */
+            text-align: center;
+        }
+        th {
+            background: #4a4a4a;
+            padding: 12px 20px;  /* Increased padding */
+            font-size: 1.2em;
+            color: #d4b483;
+            text-shadow: 1px 1px #1a1a1a;
+            white-space: nowrap;  /* Prevent date wrapping */
+            position: sticky;
+            top: 0;  /* Sticky headers at top */
+            z-index: 1;
+        }
+        td {
+            padding: 12px 20px;  /* Increased padding */
+            font-size: 1.1em;
+            text-align: center;
+        }
+        .mood-cell {
+            font-size: 1.6em;
+            font-weight: 600;
+            text-shadow: 1px 1px #1a1a1a;
+            transition: color 0.3s ease;
+        }
+        .navigation {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .navigation a {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 0 10px;
+            background: #2c2c2c;
+            color: #d4b483;
+            text-decoration: none;
+            border: 1px solid #404040;
+            border-radius: 4px;
+            font-size: 1.2em;
+            transition: all 0.3s ease;
+        }
+        .navigation a:hover {
+            background: #404040;
+            transform: translateY(-2px);
+        }
+        .weekly-average {
+            background: #3a3a3a;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 2px solid #f5e9d3;
+            text-align: center;
+            width: 100%;
+            max-width: 800px;
+        }
+        .average-value {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin: 10px 0;
+            transition: color 0.3s ease;
+        }
+        .average-label {
+            font-size: 1.2em;
+            color: #d4b483;
+        }
+        /* Style for the date column */
+        tr th:first-child {
+            position: sticky;
+            left: 0;
+            background: #4a4a4a;
+            z-index: 1;
+        }
+        /* Style for mood values */
+        td[data-field="mood"] {
+            font-size: 1.6em;
+            font-weight: 600;
+            text-shadow: 1px 1px #1a1a1a;
+        }
+        /* Alternating row colors for better readability */
+        tr:nth-child(even) {
+            background: rgba(74, 74, 74, 0.2);
+        }
+        tr:hover {
+            background: rgba(212, 180, 131, 0.1);
+        }
+    </style>
+</head>
+<body>
+    <h1>Data Mood</h1>
+    <div class="navigation">
+        <a href="/main">Home</a>
+        <a href="/log_out">Log out</a>
+    </div>
+    <div class="container">
+        <div class="weekly-average">
+            <div class="average-label">Weekly Average Mood</div>
+            <div id="average-mood" class="average-value">-</div>
+        </div>
+        <div class="data-table">
+            <h2>Mood Data</h2>
+            {{ data_mood.to_html(classes='data', header="true", na_rep="") | safe }}
+        </div>
+    </div>
+    <script>
+        function getMoodColor(value) {
+            const red = Math.round(255 * (10 - value) / 9);
+            const green = Math.round(255 * (value - 1) / 9);
+            return `rgb(${red}, ${green}, 0)`;
+        }
+
+        document.addEventListener('DOMContentLoaded', function(){
+            const table = document.querySelector('.data');
+            if (table) {
+                table.classList.add('centered-table');
+                
+                // Find the mood column index
+                const headers = table.querySelectorAll('th');
+                let moodIndex = -1;
+                
+                headers.forEach((header, index) => {
+                    if (header.textContent.toLowerCase().includes('mood')) {
+                        moodIndex = index;
+                    }
+                });
+
+                if (moodIndex !== -1) {
+                    let moodValues = [];
+                    const rows = table.querySelectorAll('tr');
+                    
+                    rows.forEach((row, index) => {
+                        if (index === 0) return; // Skip header row
+                        const moodCell = row.cells[moodIndex];
+                        if (moodCell) {
+                            const value = parseFloat(moodCell.textContent);
+                            if (!isNaN(value) && value >= 1 && value <= 10) {
+                                moodCell.style.color = getMoodColor(value);
+                                moodCell.setAttribute('data-field', 'mood');
+                                moodValues.push(value);
+                            }
+                        }
+                    });
+
+                    // Calculate and display average mood
+                    if (moodValues.length > 0) {
+                        const average = moodValues.reduce((a, b) => a + b) / moodValues.length;
+                        const averageDisplay = document.getElementById('average-mood');
+                        averageDisplay.textContent = average.toFixed(1);
+                        averageDisplay.style.color = getMoodColor(average);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>

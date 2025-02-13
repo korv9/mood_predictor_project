@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log In Status</title>
+</head>
+<body>
+    {% if logged_in %}
+        <p>Logged in as {{ username }}<br>
+        <b><a href="{{ url_for('logout') }}">click here to log out</a></b>
+        or <a href="{{ url_for('main') }}"><b>click here to go to main page</b></a></p>
+    {% else %}
+        <p>You are not logged in <br>
+        <a href="{{ url_for('log_in') }}"><b>Click here to log in</b></a>
+        or <a href="{{ url_for('register') }}"><b>register here</b></a></p>
+    {% endif %}
+</body>
+</html>

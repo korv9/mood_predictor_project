@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Weekday Mood Tracker</title>
+  <!-- Import a medieval inspired font -->
+  <link href="https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background: #1a1a1a;
+      font-family: 'MedievalSharp', cursive;
+      color: #e0e0e0;
+      margin: 0;
+      padding: 20px;
+      min-height: 100vh;
+    }
+
+    h1 {
+      text-align: center;
+      text-shadow: 2px 2px #4a4a4a;
+      color: #d4b483;
+      margin-bottom: 30px;
+    }
+
+    .navigation {
+      text-align: center;
+      margin-bottom: 10px; /* Reduced margin */
+      background: #2c2c2c;
+      padding: 15px;
+      border: 1px solid #404040;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .navigation a, .navigation button {
+      margin: 5px;
+      text-decoration: none;
+      color: #d4b483;
+      font-weight: bold;
+      background: #1a1a1a;
+      border: 1px solid #404040;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .navigation a:hover, .navigation button:hover {
+      background: #404040;
+      transform: translateY(-2px);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      overflow-x: auto;
+    }
+
+    .day-container {
+      flex: 0 0 280px;  /* Increased from 250px */
+      background: #2c2c2c;
+      padding: 15px;
+      border: 1px solid #404040;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .day-container h3 {
+      color: #d4b483;
+      margin: 0 0 15px 0;
+      font-size: 1.4em;
+      text-align: center;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      text-shadow: 1px 1px #1a1a1a;
+    }
+
+    .field-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;  /* Increased from 8px */
+      padding: 4px 0;
+    }
+
+    label {
+      display: inline-block;
+      color: #d4b483;
+      font-size: 1.4em;  /* Increased from 1.2em */
+      text-transform: capitalize;
+      margin-right: 15px;  /* Increased margin for better spacing */
+      flex: 1;
+      font-weight: 600;  /* Added font weight for better readability */
+      text-shadow: 1px 1px #1a1a1a;  /* Added text shadow for better contrast */
+      letter-spacing: 0.5px;  /* Added letter spacing for readability */
+    }
+
+    input[type="number"] {
+      width: 60px;
+      padding: 8px;
+      border: 1px solid #404040;
+      border-radius: 4px;
+      background: #1a1a1a;
+      color: #e0e0e0;
+      font-family: 'MedievalSharp', cursive;
+      text-align: center;
+      font-size: 1.2em;
+      margin: 0;  /* Remove margin */
+    }
+
+    input[type="number"]:focus {
+      outline: none;
+      border-color: #d4b483;
+      box-shadow: 0 0 3px #d4b483;
+    }
+
+    input[type="number"].mood-input {
+      transition: color 0.3s ease;
+    }
+
+    .value-display {
+      margin: 0;  /* Remove margin */
+    }
+
+    .submit-container {
+      display: none;
+    }
+
+    input[type="submit"] {
+      background: #d4b483;
+      color: #1a1a1a;
+      border: none;
+      padding: 12px 30px;
+      border-radius: 4px;
+      font-family: 'MedievalSharp', cursive;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-weight: bold;
+      font-size: 1.2em;
+    }
+
+    input[type="submit"]:hover {
+      background: #c4a473;
+      transform: translateY(-2px);
+    }
+
+    .flash-messages {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .flash-message {
+      background: #d4b483;
+      color: #1a1a1a;
+      padding: 10px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+
+    /* Add horizontal scrollbar styling */
+    .container::-webkit-scrollbar {
+      height: 8px;
+    }
+
+    .container::-webkit-scrollbar-track {
+      background: #1a1a1a;
+    }
+
+    .container::-webkit-scrollbar-thumb {
+      background: #404040;
+      border-radius: 4px;
+    }
+
+    .container::-webkit-scrollbar-thumb:hover {
+      background: #d4b483;
+    }
+
+    .week-navigation {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 15px;
+      background: #2c2c2c;
+      border: 1px solid #404040;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    .week-navigation a, .week-navigation button {
+      text-decoration: none;
+      color: #d4b483;
+      font-size: 1.3em; /* Increased font size */
+      padding: 12px 24px;
+      border: 1px solid #404040;
+      border-radius: 4px;
+      background: #2c2c2c;
+      transition: all 0.3s ease;
+    }
+
+    .week-navigation a:hover, .week-navigation button:hover {
+      background: #404040;
+      transform: translateY(-2px);
+    }
+
+    .week-navigation input[type="submit"] {
+      font-size: 1.3em; /* Increased font size */
+      padding: 12px 30px;
+      background: #d4b483;
+      color: #1a1a1a;
+      border: 1px solid #404040;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .week-navigation input[type="submit"]:hover {
+      background: #c4a473;
+      transform: translateY(-2px);
+    }
+
+    .week-navigation strong {
+      color: #d4b483;
+      font-size: 1.3em;
+    }
+
+    .prediction {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .prediction .number {
+      font-size: 6em;
+      text-shadow: 2px 2px #4a4a4a;
+      transition: color 0.3s ease;
+    }
+
+    .prediction .text {
+      font-size: 1.5em;
+      color: #d4b483;
+      text-shadow: 2px 2px #4a4a4a;
+    }
+  </style>
+</head>
+<body>
+  
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <div class="flash-message">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+  <div class="prediction">
+    {% if next_day_date %}
+    <div class="number" id="prediction-value">{{ prediction }}</div>
+    <div class="text">Predicted Mood for {{ next_day_date.strftime("%A, %d/%m") }}</div>
+    {% else %}
+    {% if prediction is none %}
+    <h2>No data available for prediction.</h2>
+    {% endif %}
+    {% endif %}
+  </div>
+  <div class="navigation">
+    <strong style="font-size: 1.3em;">
+      Week {{ week_start.strftime("%U") }} - {{ week_start.strftime("%B %Y") }}
+    </strong>
+    <br><br>
+    <button onclick="location.href='/dashboard'" style="font-size: 1.2em;">Profile Info</button>
+    <button onclick="location.href='/data_mood'" style="font-size: 1.2em;">Data</button>
+    <button onclick="location.href='/predict_next_day_mood'" style="font-size: 1.2em;">Predict Next Day Mood</button>
+    <button onclick="location.href='/logout'" style="font-size: 1.2em;">Log Out</button>
+  </div>
+
+  <div class="week-navigation">
+    <a href="{{ url_for('main_page', week=prev_week.strftime('%Y-%m-%d')) }}">&#8592; Previous Week</a>
+    <input type="submit" form="weekForm" value="Save Week">
+    <a href="{{ url_for('main_page', week=next_week.strftime('%Y-%m-%d')) }}">Next Week &#8594;</a>
+  </div>
+
+  <form method="post" id="weekForm">
+    <div class="container">
+      {% for day in weekdays %}
+      <div class="day-container">
+        <h3>{{ day }} {{ (week_start + timedelta(days=loop.index0)).strftime("%d/%m") }}</h3>
+        {% for field in ['mood', 'appetite', 'sleep', 'stress', 'exercise', 'social_activity', 'productivity', 'hobby_time'] %}
+        <div class="field-row">
+          <label>{{ field|title }}:</label>
+          <div class="value-display">
+            <input type="number" 
+                   name="{{ day|lower }}_{{ field }}"
+                   class="{{ 'mood-input' if field == 'mood' else '' }}"
+                   min="1" 
+                   max="10" 
+                   value="{{ data[day][field] if data[day][field] is not none else '' }}"
+            >
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+    </div>
+  </form>
+  <script>
+    function getMoodColor(value) {
+        const red = Math.round(255 * (10 - value) / 9);
+        const green = Math.round(255 * (value - 1) / 9);
+        return `rgb(${red}, ${green}, 0)`;
+    }
+
+    document.addEventListener('DOMContentLoaded', function(){
+        const inputs = document.querySelectorAll('input[type="number"]');
+        const moodInputs = document.querySelectorAll('.mood-input');
+        const predictionValue = document.getElementById('prediction-value');
+        
+        // Color the prediction value
+        if (predictionValue) {
+            const value = parseFloat(predictionValue.textContent);
+            if (!isNaN(value)) {
+                predictionValue.style.color = getMoodColor(value);
+            }
+        }
+
+        // Color the mood inputs
+        moodInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                const value = parseFloat(this.value);
+                if (!isNaN(value) && value >= 1 && value <= 10) {
+                    this.style.color = getMoodColor(value);
+                }
+            });
+            
+            // Set initial color
+            const value = parseFloat(input.value);
+            if (!isNaN(value) && value >= 1 && value <= 10) {
+                input.style.color = getMoodColor(value);
+            }
+        });
+
+        // Existing input validation
+        inputs.forEach(input => {
+            input.addEventListener('change', function() {
+                const value = parseInt(this.value);
+                if (value < 1) this.value = 1;
+                if (value > 10) this.value = 10;
+            });
+        });
+    });
+  </script>
+</body>
+</html>

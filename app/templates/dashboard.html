@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block header %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="navigation">
+    <button onclick="location.href='/profile'">Update Profile</button>
+    <button onclick="location.href='/main'">Back to Main</button>
+</div>
+
+<div class="form-container">
+    <h2>User Profile</h2>
+    <table>
+        <tr>
+            <td>Username:</td>
+            <td>{{ user.username }}</td>
+        </tr>
+        <tr>
+            <td>Depression:</td>
+            <td>{{ user.depression }}</td>
+        </tr>
+        <tr>
+            <td>Anxiety:</td>
+            <td>{{ user.anxiety }}</td>
+        </tr>
+        <tr>
+            <td>Stress:</td>
+            <td>{{ user.stress }}</td>
+        </tr>
+        <tr>
+            <td>Mania:</td>
+            <td>{{ user.mania }}</td>
+        </tr>
+        <tr>
+            <td>Delusion:</td>
+            <td>{{ user.delusion }}</td>
+        </tr>
+        <tr>
+            <td>Paranoia:</td>
+            <td>{{ user.paranoia }}</td>
+        </tr>
+        <tr>
+            <td>Depressive Episodes:</td>
+            <td>{{ user.depressive_episodes }}</td>
+        </tr>
+        <tr>
+            <td>Manic Episodes:</td>
+            <td>{{ user.manic_episodes }}</td>
+        </tr>
+    </table>
+</div>
+{% endblock %}

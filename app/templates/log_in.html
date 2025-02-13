@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Log in</title>
+        <style>
+            .flash-message { color: red; margin: 10px 0; }
+        </style>
+    </head>
+    <body>
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="flash-message">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        
+        {% extends "base.html" %}
+
+        {% block title %}Log In{% endblock %}
+
+        {% block header %}Log In{% endblock %}
+
+        {% block content %}
+        <div class="form-container">
+            <form action='/log_in' method="POST">
+                <div>
+                    <label for="username">Username:</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div>
+                    <label for="password">Password:</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <div style="text-align: center; margin-top: 20px;">
+                    <input type="submit" value="Login">
+                    <button onclick="location.href='/register'" type="button">Register</button>
+                </div>
+            </form>
+        </div>
+        {% endblock %}
+    </body>
+</html>

@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block header %}Update Profile{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <form action="/profile" method="POST">
+        <div>
+            <label for="depression">Current level of depression:</label>
+            <input type="number" id="depression" name="depression" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="anxiety">Current level of anxiety:</label>
+            <input type="number" id="anxiety" name="anxiety" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="stress">Current level of stress:</label>
+            <input type="number" id="stress" name="stress" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="mania">Current level of mania:</label>
+            <input type="number" id="mania" name="mania" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="delusion">Current level of delusion:</label>
+            <input type="number" id="delusion" name="delusion" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="paranoia">Current level of paranoia:</label>
+            <input type="number" id="paranoia" name="paranoia" min="0" max="10" required>
+        </div>
+
+        <div>
+            <label for="depressive_episodes">Average annual depressive episodes:</label>
+            <input type="number" id="depressive_episodes" name="depressive_episodes" min="0" required>
+        </div>
+
+        <div>
+            <label for="manic_episodes">Average annual manic episodes:</label>
+            <input type="number" id="manic_episodes" name="manic_episodes" min="0" required>
+        </div>
+
+        <div style="text-align: center; margin-top: 20px;">
+            <input type="submit" value="Save">
+            <button onclick="location.href='/dashboard'" type="button">Back to Dashboard</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
+
+
+

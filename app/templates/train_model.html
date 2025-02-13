@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Model Training Results</title>
+    <style>
+        body {
+            background: #2c2c2c;
+            font-family: 'MedievalSharp', cursive;
+            color: #f5e9d3;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            text-shadow: 2px 2px #d4b483;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .results-table {
+            margin: 20px;
+            border: 2px solid #f5e9d3;
+            border-radius: 8px;
+            padding: 10px;
+            background: #3a3a3a;
+            box-shadow: 3px 3px 5px rgba(74,44,42,0.3);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #f5e9d3;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background: #4a4a4a;
+        }
+    </style>
+</head>
+<body>
+    <h1>Model Training Results</h1>
+    <div class="container">
+        <div class="results-table">
+            <h2>Feature Importance</h2>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Importance</th>
+                </tr>
+                {% for index, row in feature_importance.iterrows() %}
+                <tr>
+                    <td>{{ row['feature'] }}</td>
+                    <td>{{ row['importance'] }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+        <div class="results-table">
+            <h2>Model Performance</h2>
+            <p>Mean Squared Error: {{ mse }}</p>
+            <p>R2 Score: {{ r2 }}</p>
+        </div>
+    </div>
+</body>
+</html>
