@@ -37,7 +37,7 @@ def extract_data(username):
     return df
 
 
-
+#Gjorde datums-funktioner här för att städa upp lite i routes
 def parse_next_day_date(date_str: Optional[str]) -> Optional[date]:
     try:
         return datetime.strptime(date_str, "%Y-%m-%d").date() if date_str else None
@@ -51,7 +51,7 @@ def parse_feature_importance(feature_data: Optional[dict]) -> Optional[pd.DataFr
         return None
 
 def parse_prediction_data(prediction_data: dict) -> tuple:
-    """Parse prediction data and return tuple of (next_day_date, feature_importance)"""
+   
     if not prediction_data:
         return None, None
         
